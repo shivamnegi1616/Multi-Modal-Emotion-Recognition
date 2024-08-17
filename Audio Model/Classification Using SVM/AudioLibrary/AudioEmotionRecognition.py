@@ -67,38 +67,3 @@ class AudioEmotionRecognition:
         prediction = prediction[0][2:]
 
         return prediction
-
-    '''
-    Function to predict speech emotion over time from video
-    '''
-    def predict_emotion_from_file(self, filename, sample_rate, chunk_size=0, chunk_step=0, predict_proba=False,
-                                  decode=True):
-
-        # Initialize Audio Basic object
-        audio_signal = AudioSignal(sample_rate, filename=filename)
-
-        # Split audio signals into chunks
-        if chunk_size > 0:
-            chunks = audio_signal.framing(chunk_size, chunk_step)
-
-            # Initialize time stamp
-            timestamp = []
-
-            # Emotion prediction for each chunks
-            prediction = []
-            for signal in chunks:
-                if len(timestamp) == 0:
-                    timestamp.append(chunk_size)
-                else:
-                    timestamp.append(timestamp[-1] + chunk_step)
-                prediction.append(self.predict_emotion(signal, predict_proba=predict_proba, decode=decode))
-
-            # Return emotion prediction and related timestamp
-            return prediction, timestamp
-        else:
-
-            # Emotion prediction
-            prediction = self.predict_emotion(audio_signal, predict_proba=predict_proba, decode=decode)
-
-            # Return emotion prediction
-            return prediction
