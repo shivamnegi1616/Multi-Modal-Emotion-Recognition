@@ -41,3 +41,14 @@ TimeDistributed CNNs pipeline:
 - Log-mel-spectrogram extraction
 - Split spectrogram with a rolling window
 - Make a prediction using our pre-trained model
+
+
+# 2) Text Emotion Recognition
+
+
+## Model
+
+I have chosen a neural network architecture based on both one-dimensional convolutional neural networks and recurrent neural networks.
+The one-dimensional convolution layer plays a role comparable to feature extraction : it allows finding patterns in text data. The Long-Short Term Memory cell is then used in order to leverage on the sequential nature of natural language : unlike regular neural network where inputs are assumed to be independent of each other, these architectures progressively accumulate and capture information through the sequences. LSTMs have the property of selectively remembering patterns for long durations of time.
+My final model first includes 3 consecutive blocks consisting of the following four layers : one-dimensional convolution layer - max pooling - spatial dropout - batch normalization. The numbers of convolution filters are respectively 128, 256 and 512 for each block, kernel size is 8, max pooling size is 2 and dropout rate is 0.3.
+Following the three blocks, I chose to stack 3 LSTM cells with 180 outputs each. Finally, a fully connected layer of 128 nodes is added before the last classification layer.
